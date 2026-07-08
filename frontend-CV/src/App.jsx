@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react'
 
-const API_URL = 'http://localhost:5000/api/cv'
+const IS_PRODUCTION = import.meta.env.PROD
+
+const API_URL = IS_PRODUCTION
+  ? '/api/cv'
+  : 'http://localhost:5000/api/cv'
+
+const BACKEND_URL = IS_PRODUCTION
+  ? ''
+  : 'http://localhost:5000'
 
 function App() {
   const [cv, setCv] = useState(null)

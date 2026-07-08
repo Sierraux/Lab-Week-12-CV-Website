@@ -1,0 +1,15 @@
+node_modules
+backend-CV/node_modules
+frontend-CV/node_modules
+
+frontend-CV/dist
+backend-CV/public
+
+.env
+.DS_Store
+Thumbs.db
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
