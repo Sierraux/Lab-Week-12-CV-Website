@@ -118,12 +118,12 @@ function App() {
   display: 'inline-block',
   margin: '10px 0 0 0',
   padding: '6px 14px',
-  borderRadius: '999px',
-  fontSize: '12px',
+  borderRadius: '90px',
+  fontSize: '14px',
   fontWeight: 'bold',
   color: '#4ade80',
   background: 'rgba(74, 222, 128, 0.1)',
-  border: '1px solid rgba(74, 222, 128, 0.2)'
+  border: '1px solid rgba(74, 222, 128, 0.2)',
 }}>
   Available for collaboration
 </div>
