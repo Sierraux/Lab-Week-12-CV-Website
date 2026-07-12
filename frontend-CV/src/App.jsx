@@ -115,8 +115,9 @@ function App() {
             <h3>{profile.name}</h3>
             <p>{profile.role}</p>
             <div style={{
-  display: 'inline-block',
-  margin: '10px 0 0 0',
+  display: 'block',
+  width: 'fit-content',
+  margin: '10px auto 0 auto',
   padding: '6px 14px',
   borderRadius: '90px',
   fontSize: '14px',
@@ -139,14 +140,7 @@ function App() {
         </div>
       </section>
 
-      <section className="stats-section">
-        {stats.map((item) => (
-          <div className="stat-card" key={item.label}>
-            <strong>{item.value}</strong>
-            <span>{item.label}</span>
-          </div>
-        ))}
-      </section>
+
 
       <section className="content-section">
         <div className="section-heading">

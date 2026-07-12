@@ -67,8 +67,7 @@ return res.json({
     endpoints: {
       health: '/api/health',
       cv: '/api/cv',
-      // Hapus kata 'public' di depannya
-      photo: '/images/assets/profile.jpeg', 
+      photo: '/images/profile.jpeg',
     },
   })
 })
@@ -76,6 +75,5 @@ return res.json({
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server berjalan di http://localhost:${PORT}`)
   console.log(`API CV: http://localhost:${PORT}/api/cv`)
-  // Hapus kata 'public' di depannya
-  console.log(`Foto: http://localhost:${PORT}/images/assets/profile.jpeg`)
+  console.log(`Foto: http://localhost:${PORT}/images/profile.jpeg`)
 })
