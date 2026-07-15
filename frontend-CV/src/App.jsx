@@ -10,6 +10,47 @@ const BACKEND_URL = IS_PRODUCTION
   ? ''
   : 'http://localhost:5000'
 
+/* ---------------------------------------------------------------------
+   HUD FRAME — fixed cockpit chrome: four corner brackets + a live
+   telemetry readout (local time, connection status). Purely decorative,
+   sits above the starfield, never intercepts clicks.
+   --------------------------------------------------------------------- */
+function HudFrame({ status = 'ONLINE' }) {
+  const [time, setTime] = useState(() => new Date())
+
+  useEffect(() => {
+    const tick = setInterval(() => setTime(new Date()), 1000)
+    return () => clearInterval(tick)
+  }, [])
+
+  const hh = String(time.getHours()).padStart(2, '0')
+  const mm = String(time.getMinutes()).padStart(2, '0')
+  const ss = String(time.getSeconds()).padStart(2, '0')
+
+  return (
+    <div className="hud-frame" aria-hidden="true">
+      <span className="hud-corner tl" />
+      <span className="hud-corner tr" />
+      <span className="hud-corner bl" />
+      <span className="hud-corner br" />
+
+      <div className="hud-readout top-left">
+        <span className="hud-dot" />
+        SYS.{status}
+      </div>
+      <div className="hud-readout top-right">
+        LOCAL TIME <span className="hud-value">{hh}:{mm}:{ss}</span>
+      </div>
+      <div className="hud-readout bottom-left">
+        CV.STUDIO // MISSION DECK
+      </div>
+      <div className="hud-readout bottom-right">
+        SCROLL TO NAVIGATE
+      </div>
+    </div>
+  )
+}
+
 function App() {
   const [cv, setCv] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -39,8 +80,28 @@ function App() {
   if (loading) {
     return (
       <div className="state-screen">
+        <HudFrame status="BOOTING" />
         <div className="loader"></div>
-        <p>Memuat CV profesional...</p>
+        <p style={{ marginTop: 24, letterSpacing: 1 }}>Memuat CV profesional...</p>
+
+        <div className="boot-log">
+          <div className="boot-log-line">
+            <span className="prompt">&gt;</span> establishing uplink to mission-control API
+          </div>
+          <div className="boot-log-line">
+            <span className="prompt">&gt;</span> decrypting telemetry payload
+          </div>
+          <div className="boot-log-line">
+            <span className="prompt">&gt;</span> rendering flight deck<span className="ok"> OK</span>
+          </div>
+          <div className="boot-log-line cursor">
+            <span className="prompt">&gt;</span> standing by
+          </div>
+        </div>
+
+        <div style={{ width: 'min(420px, 88vw)', margin: '18px auto 0' }}>
+          <div className="bar-loader" />
+        </div>
       </div>
     )
   }
@@ -48,8 +109,13 @@ function App() {
   if (error) {
     return (
       <div className="state-screen">
-        <h1>Terjadi Kesalahan</h1>
-        <p>{error}</p>
+        <HudFrame status="ERROR" />
+        <div className="alert alert-danger" style={{ maxWidth: 480, textAlign: 'left' }}>
+          <div>
+            <div className="alert-title">Terjadi Kesalahan</div>
+            <div className="alert-body">{error}</div>
+          </div>
+        </div>
       </div>
     )
   }
@@ -58,6 +124,8 @@ function App() {
 
   return (
     <main className="page-shell">
+      <HudFrame />
+
       <div className="orb orb-one"></div>
       <div className="orb orb-two"></div>
       <div className="orb orb-three"></div>
@@ -66,6 +134,7 @@ function App() {
         <nav className="navbar">
           <div className="brand">CV<span>Studio</span></div>
           <div className="nav-links">
+            <a href="#about">About</a>
             <a href="#skills">Skills</a>
             <a href="#experience">Experience</a>
             <a href="#projects">Projects</a>
@@ -97,37 +166,23 @@ function App() {
               {profile.photo ? (
                 <div className="avatar">
                   <img
-                    src="/images/profile.jpeg"
+                    src={`${BACKEND_URL}${profile.photo}`}
                     alt={profile.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      borderRadius: '50%',
-                      objectFit: 'cover',
-                      display: 'block'
-                    }}
                   />
                 </div>
               ) : (
-                <div className="avatar">{profile.photoText}</div>
+                <div className="avatar"><span>{profile.photoText}</span></div>
               )}
             </div>
             <h3>{profile.name}</h3>
             <p>{profile.role}</p>
-            <div style={{
-  display: 'block',
-  width: 'fit-content',
-  margin: '10px auto 0 auto',
-  padding: '6px 14px',
-  borderRadius: '90px',
-  fontSize: '14px',
-  fontWeight: 'bold',
-  color: '#4ade80',
-  background: 'rgba(74, 222, 128, 0.1)',
-  border: '1px solid rgba(74, 222, 128, 0.2)',
-}}>
-  Available for collaboration
-</div>
+
+            <span
+              className="badge badge-green badge-live"
+              style={{ display: 'block', width: 'fit-content', margin: '0 auto' }}
+            >
+              Available for collaboration
+            </span>
 
             <div className="social-list">
               {socials.map((social) => (
@@ -140,9 +195,18 @@ function App() {
         </div>
       </section>
 
+      {stats && stats.length > 0 && (
+        <section className="stats-section">
+          {stats.map((stat) => (
+            <div className="stat-card" key={stat.label}>
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+            </div>
+          ))}
+        </section>
+      )}
 
-
-      <section className="content-section">
+      <section className="content-section" id="about">
         <div className="section-heading">
           <span>About</span>
           <h2>Profil Singkat</h2>
@@ -237,6 +301,17 @@ function App() {
         </div>
         <a href={`mailto:${profile.email}`} className="primary-button">Kirim Email</a>
       </section>
+
+      <footer className="site-footer">
+        <span>© {new Date().getFullYear()} {profile.name}. All systems nominal.</span>
+        <div className="footer-socials">
+          {socials.map((social) => (
+            <a key={social.label} href={social.url} target="_blank" rel="noreferrer">
+              {social.label}
+            </a>
+          ))}
+        </div>
+      </footer>
     </main>
   )
 }
