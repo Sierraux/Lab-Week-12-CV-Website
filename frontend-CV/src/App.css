@@ -2,50 +2,6 @@
 
 /* =========================================================================
    MISSION CONTROL — STARSHIP COMMAND DECK DESIGN SYSTEM
-   =========================================================================
-   A full cockpit-HUD design language: deep-space starfield, drifting
-   nebula, an orbiting planet + moon, a comet streaking by, console panels
-   with rivets and status LEDs, plus a complete component kit (buttons,
-   badges, forms, tabs, modals, toasts, tables, pagination, tooltips,
-   progress rings, accordions, breadcrumbs and more) so the whole site
-   reads as one coherent instrument panel rather than a single hero.
-
-   TABLE OF CONTENTS
-   -------------------------------------------------------------------------
-   01. Design Tokens (color / type / spacing / radius / shadow / z-index)
-   02. Global Reset & Base
-   03. Page Shell — starfield, nebula, vignette, grid
-   04. Ambient Orbs — gas cloud, comet, planet + ring + moon
-   05. Utility Classes (layout, spacing, text)
-   06. Buttons
-   07. Badges & Status Pills
-   08. Alerts / Callouts
-   09. Forms (inputs, switches, radios, selects)
-   10. Navbar + Mobile Menu + Dropdown
-   11. Hero Section
-   12. Profile Card + Avatar
-   13. Stats Section
-   14. Section Heading / Divider
-   15. About + Skills
-   16. Timeline
-   17. Projects Grid
-   18. Tabs
-   19. Accordion / FAQ
-   20. Table ("Mission Log")
-   21. Pagination + Breadcrumbs
-   22. Tooltip
-   23. Modal / Dialog
-   24. Toast Notifications
-   25. Progress Ring + Loaders
-   26. Contact Section
-   27. Footer
-   28. Keyframe Library
-   29. Responsive Breakpoints
-   30. Reduced Motion & Print
-   ========================================================================= */
-
-/* =========================================================================
-   01. DESIGN TOKENS
    ========================================================================= */
 
 @property --aura-hue {
@@ -55,7 +11,6 @@
 }
 
 :root {
-  /* ---- neutrals ---- */
   --void: #04060d;
   --void-mid: #0a0e22;
   --void-deep: #010103;
@@ -66,7 +21,6 @@
   --muted-dim: #5c6a89;
   --muted-faint: #3d4863;
 
-  /* ---- signal palette: starship HUD ---- */
   --engine-cyan: #4ee1ff;
   --warp-violet: #9b6bff;
   --plasma-magenta: #ff4fd8;
@@ -75,7 +29,6 @@
   --hud-green: #6dffa0;
   --deep-blue: #3d7bff;
 
-  /* ---- semantic aliases ---- */
   --color-success: var(--hud-green);
   --color-warning: var(--solar-gold);
   --color-danger: var(--hazard-red);
@@ -84,7 +37,6 @@
   --color-secondary: var(--warp-violet);
   --color-accent: var(--plasma-magenta);
 
-  /* legacy aliases so every existing rule below picks up the new palette */
   --bg: var(--void);
   --card: rgba(155, 107, 255, 0.06);
   --card-strong: rgba(155, 107, 255, 0.12);
@@ -104,7 +56,6 @@
   --font-body: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 
-  /* ---- glass tokens ---- */
   --glass-bg: rgba(155, 107, 255, 0.05);
   --glass-bg-strong: rgba(155, 107, 255, 0.1);
   --glass-border: rgba(160, 210, 255, 0.22);
@@ -112,7 +63,6 @@
   --glass-blur: 30px;
   --glass-blur-soft: 16px;
 
-  /* ---- spacing scale ---- */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -126,14 +76,12 @@
   --space-20: 80px;
   --space-24: 96px;
 
-  /* ---- radius scale ---- */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-xl: 22px;
   --radius-full: 999px;
 
-  /* ---- shadow scale ---- */
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.28);
   --shadow-md: 0 20px 60px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 30px 90px rgba(0, 0, 0, 0.5);
@@ -143,14 +91,12 @@
   --shadow-glow-gold: 0 0 24px rgba(255, 207, 92, 0.45);
   --shadow-glow-red: 0 0 24px rgba(255, 82, 82, 0.45);
 
-  /* ---- motion ---- */
   --ease-console: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-snap: cubic-bezier(0.4, 0, 0.2, 1);
   --dur-fast: 0.18s;
   --dur-base: 0.3s;
   --dur-slow: 0.6s;
 
-  /* ---- z-index scale ---- */
   --z-base: 1;
   --z-orbs: 2;
   --z-scanline: 3;
@@ -215,6 +161,7 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 img {
@@ -732,7 +679,6 @@ button {
 .badge-solid.badge-green { background: var(--hud-green); }
 .badge-solid.badge-red { background: var(--hazard-red); }
 
-/* live/telemetry variant — pulsing dot, used for "available now" style readouts */
 .badge-live {
   padding: 6px 14px 6px 12px;
   font-size: 12px;
@@ -853,7 +799,6 @@ button {
   background-repeat: no-repeat;
 }
 
-/* cockpit toggle switch */
 .switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
 .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
 .switch-track {
@@ -883,7 +828,6 @@ button {
   box-shadow: 0 0 10px var(--hud-green);
 }
 
-/* radio / checkbox, styled as targeting reticles */
 .check,
 .radio { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; color: var(--muted); }
 .check input,
@@ -954,6 +898,7 @@ button {
   font-size: 24px;
   font-weight: 800;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 .brand span {
@@ -1000,19 +945,30 @@ button {
   display: none;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 5px;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
   border-radius: 8px;
   border: 1px solid var(--glass-border);
   background: rgba(155, 107, 255, 0.08);
+  backdrop-filter: blur(var(--glass-blur-soft));
+  -webkit-backdrop-filter: blur(var(--glass-blur-soft));
+  flex-shrink: 0;
+  z-index: var(--z-dropdown);
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+.nav-toggle:hover {
+  border-color: rgba(78, 225, 255, 0.5);
+  background: rgba(155, 107, 255, 0.16);
 }
 .nav-toggle span {
   display: block;
+  width: 20px;
   height: 2px;
   border-radius: 2px;
   background: var(--engine-cyan);
-  margin: 0 8px;
   transition: transform var(--dur-base) var(--ease-console), opacity var(--dur-base) ease;
 }
 .nav-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -1119,7 +1075,7 @@ button {
   align-items: center;
 }
 
-.hero-copy { animation: slideUp 0.8s ease; }
+.hero-copy { animation: slideUp 0.8s ease; min-width: 0; }
 
 .eyebrow {
   color: var(--hud-green);
@@ -1144,8 +1100,8 @@ button {
   margin: 0;
   max-width: 760px;
   font-family: var(--font-display);
-  font-size: clamp(44px, 8.4vw, 92px);
-  line-height: 1.02;
+  font-size: clamp(38px, 8.4vw, 92px);
+  line-height: 1.05;
   letter-spacing: -1px;
   font-weight: 800;
   background: linear-gradient(135deg, var(--engine-cyan) 0%, var(--warp-violet) 50%, var(--plasma-magenta) 100%);
@@ -1154,13 +1110,14 @@ button {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: gradientShift 8s ease-in-out infinite;
+  word-break: break-word;
 }
 
 .hero-copy h2 {
   margin: 20px 0;
   color: var(--solar-gold);
   font-family: var(--font-mono);
-  font-size: clamp(20px, 3vw, 32px);
+  font-size: clamp(18px, 3vw, 32px);
   font-weight: 700;
 }
 
@@ -1184,6 +1141,8 @@ button {
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .quick-info span::before {
@@ -1483,7 +1442,7 @@ button {
   position: relative;
   margin: 0 0 24px;
   font-family: var(--font-display);
-  font-size: clamp(30px, 3.6vw, 46px);
+  font-size: clamp(28px, 3.6vw, 46px);
   letter-spacing: -0.5px;
   font-weight: 800;
 }
@@ -1566,7 +1525,7 @@ button {
 
 .skill-card.skill-card-compact { padding: 16px 18px; }
 
-.skill-top { display: flex; justify-content: space-between; margin-bottom: 14px; }
+.skill-top { display: flex; justify-content: space-between; margin-bottom: 14px; gap: 8px; }
 
 .skill-top span { color: var(--engine-cyan); font-family: var(--font-mono); font-weight: 800; font-size: 15px; }
 
@@ -1773,6 +1732,9 @@ button {
   border: 1px solid var(--glass-border);
   background: rgba(4, 6, 13, 0.4);
   width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tab-trigger {
@@ -1782,6 +1744,7 @@ button {
   font-size: 13px;
   font-weight: 700;
   color: var(--muted);
+  white-space: nowrap;
   transition: all var(--dur-base) var(--ease-console);
 }
 
@@ -1813,11 +1776,13 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   padding: 18px 20px;
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 15px;
   color: var(--text);
+  text-align: left;
 }
 
 .accordion-trigger-icon {
@@ -1846,12 +1811,14 @@ button {
 .table-wrap {
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   backdrop-filter: blur(var(--glass-blur-soft));
   -webkit-backdrop-filter: blur(var(--glass-blur-soft));
 }
 
-.mc-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.mc-table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: 14px; }
 
 .mc-table thead th {
   text-align: left;
@@ -1864,6 +1831,7 @@ button {
   color: var(--engine-cyan);
   background: rgba(78, 225, 255, 0.06);
   border-bottom: 1px solid var(--glass-border);
+  white-space: nowrap;
 }
 
 .mc-table tbody td { padding: 14px 18px; color: var(--muted); border-bottom: 1px solid rgba(160, 210, 255, 0.08); }
@@ -1876,7 +1844,7 @@ button {
    21. PAGINATION + BREADCRUMBS
    ========================================================================= */
 
-.pagination { display: flex; align-items: center; gap: 6px; }
+.pagination { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 
 .page-btn {
   min-width: 36px;
@@ -1898,7 +1866,7 @@ button {
   box-shadow: 0 6px 16px rgba(78, 225, 255, 0.3);
 }
 
-.breadcrumbs { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+.breadcrumbs { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
 .breadcrumbs a:hover { color: var(--engine-cyan); }
 .breadcrumbs .sep { color: var(--muted-faint); }
 .breadcrumbs .current { color: var(--text); font-weight: 700; }
@@ -1961,6 +1929,8 @@ button {
 .modal {
   position: relative;
   width: min(520px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
   padding: 32px;
   border-radius: var(--radius-xl);
   border: 1px solid var(--glass-border);
@@ -1998,7 +1968,7 @@ button {
 
 .modal-title { font-family: var(--font-display); font-size: 22px; font-weight: 800; margin: 0 0 12px; }
 .modal-body { color: var(--muted); line-height: 1.7; font-size: 15px; }
-.modal-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 28px; }
+.modal-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
 
 /* =========================================================================
    24. TOAST NOTIFICATIONS
@@ -2019,6 +1989,7 @@ button {
   align-items: flex-start;
   gap: 12px;
   width: 320px;
+  max-width: 100%;
   padding: 16px;
   border-radius: var(--radius-md);
   border: 1px solid var(--glass-border);
@@ -2133,11 +2104,6 @@ button {
 
 /* =========================================================================
    25b. HUD FRAME OVERLAY — signature cockpit chrome
-   -------------------------------------------------------------------------
-   A fixed, pointer-events:none overlay that frames the whole viewport like
-   a ship's viewport HUD: four corner brackets plus a live telemetry
-   readout. Purely decorative, sits above the starfield but never blocks
-   interaction or reflows layout.
    ========================================================================= */
 
 .hud-frame {
@@ -2295,11 +2261,12 @@ button {
   color: var(--muted-dim);
   font-family: var(--font-mono);
   font-size: 13px;
+  flex-wrap: wrap;
 }
 
 .site-footer a:hover { color: var(--engine-cyan); }
 
-.footer-socials { display: flex; gap: 16px; }
+.footer-socials { display: flex; gap: 16px; flex-wrap: wrap; }
 
 /* =========================================================================
    28. KEYFRAME LIBRARY
@@ -2417,6 +2384,11 @@ button {
 @keyframes modalPop { from { opacity: 0; transform: scale(0.92) translateY(12px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 @keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
 
+@keyframes slideDownMenu {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @supports (animation-timeline: view()) {
   .stat-card, .about-card, .skill-card, .timeline-item, .project-card, .contact-section {
     animation: revealUp linear both;
@@ -2436,6 +2408,14 @@ button {
 
 /* =========================================================================
    29. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------
+   Layered mobile-first-minded breakpoints on top of the desktop-first
+   base styles above:
+     1080px → small laptops / large tablets (project grid narrows)
+      900px → tablets (nav becomes a toggleable panel, two-column stacks)
+      680px → large phones (grids go single column, spacing tightens)
+      560px → phones (typography/buttons scale down)
+      420px → small phones (final compaction pass)
    ========================================================================= */
 
 @media (max-width: 1080px) {
@@ -2446,21 +2426,134 @@ button {
   .page-shell { padding: 16px; }
   .hero-section { padding: 24px; }
   .navbar, .contact-section { align-items: flex-start; flex-direction: column; }
-  .nav-links { flex-wrap: wrap; }
-  .hero-grid, .two-column, .project-grid, .skills-grid, .stats-section { grid-template-columns: 1fr; }
+  .hero-grid, .two-column, .stats-section { grid-template-columns: 1fr; }
+  .project-grid, .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .navbar { padding-bottom: 40px; }
   .orb-three, .orb-three::before, .orb-three::after { display: none; }
   .hud-frame { display: none; }
+
+  /* --- mobile nav toggle + collapsible panel --- */
   .nav-toggle { display: flex; }
-  .nav-links.is-open { display: flex; flex-direction: column; width: 100%; margin-top: 16px; }
+  .nav-links {
+    position: absolute;
+    top: calc(100% - 22px);
+    left: 0;
+    right: 0;
+    z-index: var(--z-dropdown);
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+    background: rgba(10, 14, 34, 0.96);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    box-shadow: var(--shadow-lg);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height var(--dur-slow) var(--ease-console), opacity var(--dur-base) ease;
+  }
+  .nav-links.is-open {
+    max-height: 420px;
+    opacity: 1;
+    pointer-events: auto;
+    padding: 10px;
+    animation: slideDownMenu var(--dur-base) var(--ease-console) both;
+  }
+  .nav-links a {
+    display: block;
+    padding: 13px 14px;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+  .nav-links a:hover { background: rgba(78, 225, 255, 0.08); transform: none; }
+  .nav-links a::after { display: none; }
+  .nav-links a.active { background: rgba(78, 225, 255, 0.1); }
+
   .toast-stack { left: 16px; right: 16px; top: 16px; }
   .toast { width: auto; }
+
+  .profile-card { padding: 56px 28px; }
+  .content-section { padding-top: 64px; }
+  .content-section:not(:first-of-type)::before { margin-bottom: 48px; }
+}
+
+@media (max-width: 680px) {
+  .project-grid, .skills-grid { grid-template-columns: 1fr; }
+
+  .two-column { gap: 24px; }
+
+  .stats-section { gap: 12px; }
+  .stat-card { padding: 20px 14px; }
+  .stat-card strong { font-size: 28px; }
+  .stat-card span { font-size: 12px; }
+
+  .timeline { padding-left: 30px; gap: 20px; }
+  .timeline::before { left: 9px; }
+  .timeline::after { left: 5px; }
+  .timeline-item { padding: 22px 20px; }
+  .timeline-item::before { left: -26px; width: 13px; height: 13px; top: 28px; }
+
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn,
+  .hero-actions .primary-button,
+  .hero-actions .secondary-button { width: 100%; }
+
+  .quick-info span { font-size: 12px; padding: 9px 14px 9px 24px; }
+
+  .contact-section { padding: 28px 24px; margin-top: 64px; }
+  .contact-section .primary-button { width: 100%; }
+
+  .social-list a { width: 100%; }
+
+  .avatar-ring { width: 168px; height: 168px; }
+  .avatar { width: 138px; height: 138px; font-size: 36px; }
 }
 
 @media (max-width: 560px) {
-  .hero-copy h1 { font-size: clamp(34px, 12vw, 56px); }
+  .page-shell { padding: 12px; }
+  .hero-section { padding: 20px; }
+  .hero-copy h1 { font-size: clamp(32px, 12vw, 56px); }
+  .hero-copy h2 { font-size: clamp(16px, 5vw, 22px); }
+  .tagline { font-size: 16px; }
+
+  .section-heading h2, .contact-section h2 { font-size: clamp(24px, 7vw, 32px); }
+  .content-section { padding-top: 52px; }
+  .content-section:not(:first-of-type)::before { margin-bottom: 36px; width: min(100px, 30%); }
+
   .btn-lg { min-height: 50px; padding: 0 22px; font-size: 14px; }
+  .primary-button, .secondary-button { min-height: 48px; padding: 0 20px; font-size: 14px; }
+
   .modal { padding: 24px; }
+  .toast { padding: 14px; }
+
+  .profile-card { padding: 44px 20px; }
+  .profile-card h3 { font-size: 24px; }
+  .profile-card p { font-size: 16px; margin: 16px auto 28px; }
+
+  .about-card, .skill-card, .project-card { padding: 22px; }
+
+  .stats-section { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 420px) {
+  .brand { font-size: 20px; }
+  .eyebrow { font-size: 12px; letter-spacing: 2px; }
+  .hero-copy h1 { font-size: clamp(28px, 13vw, 42px); }
+
+  .stat-card strong { font-size: 22px; }
+  .stat-card span { font-size: 10.5px; letter-spacing: 0; }
+
+  .avatar-ring { width: 148px; height: 148px; }
+  .avatar { width: 120px; height: 120px; font-size: 30px; }
+
+  .hud-readout { font-size: 9px; }
+
+  .quick-info span { width: 100%; box-sizing: border-box; }
 }
 
 /* =========================================================================
@@ -2480,6 +2573,7 @@ button {
   .hud-readout .hud-dot, .badge-live::before { animation: none !important; }
   .boot-log-line { opacity: 1 !important; animation: none !important; }
   .boot-log-line.cursor::after { animation: none !important; opacity: 1 !important; }
+  .nav-links.is-open { animation: none !important; }
 }
 
 @media print {
@@ -2490,4 +2584,5 @@ button {
     border: 1px solid #ccc !important;
     backdrop-filter: none !important;
   }
+  .nav-links { position: static !important; max-height: none !important; opacity: 1 !important; background: none !important; border: none !important; flex-direction: row !important; }
 }

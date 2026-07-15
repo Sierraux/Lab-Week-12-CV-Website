@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const IS_PRODUCTION = import.meta.env.PROD
 
@@ -10,10 +10,19 @@ const BACKEND_URL = IS_PRODUCTION
   ? ''
   : 'http://localhost:5000'
 
+const NAV_LINKS = [
+  { href: '#about', label: 'About' },
+  { href: '#skills', label: 'Skills' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#contact', label: 'Contact' },
+]
+
 /* ---------------------------------------------------------------------
    HUD FRAME — fixed cockpit chrome: four corner brackets + a live
    telemetry readout (local time, connection status). Purely decorative,
-   sits above the starfield, never intercepts clicks.
+   sits above the starfield, never intercepts clicks. Hidden on small
+   screens via CSS so it never competes with content for space.
    --------------------------------------------------------------------- */
 function HudFrame({ status = 'ONLINE' }) {
   const [time, setTime] = useState(() => new Date())
@@ -48,6 +57,74 @@ function HudFrame({ status = 'ONLINE' }) {
         SCROLL TO NAVIGATE
       </div>
     </div>
+  )
+}
+
+/* ---------------------------------------------------------------------
+   NAVBAR — brand + link list. On viewports under 900px the link list
+   collapses behind a hamburger button (CSS already ships the visuals
+   for .nav-toggle / .nav-links.is-open — this component wires up the
+   actual open/close state, closes on link tap, outside click, Escape,
+   and window resize back to desktop width).
+   --------------------------------------------------------------------- */
+function Navbar({ brandName = 'CV' }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const navRef = useRef(null)
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setIsOpen(false)
+      }
+    }
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') setIsOpen(false)
+    }
+    function handleResize() {
+      if (window.innerWidth > 900) setIsOpen(false)
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('resize', handleResize)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  // Prevent background scroll while the mobile panel is open
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [isOpen])
+
+  return (
+    <nav className="navbar" ref={navRef}>
+      <div className="brand">CV<span>{brandName === 'CV' ? 'Studio' : brandName}</span></div>
+
+      <button
+        type="button"
+        className={`nav-toggle${isOpen ? ' is-open' : ''}`}
+        aria-label={isOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
+        aria-expanded={isOpen}
+        aria-controls="primary-nav-links"
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <div id="primary-nav-links" className={`nav-links${isOpen ? ' is-open' : ''}`}>
+        {NAV_LINKS.map((link) => (
+          <a key={link.href} href={link.href} onClick={() => setIsOpen(false)}>
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </nav>
   )
 }
 
@@ -131,16 +208,7 @@ function App() {
       <div className="orb orb-three"></div>
 
       <section className="hero-section">
-        <nav className="navbar">
-          <div className="brand">CV<span>Studio</span></div>
-          <div className="nav-links">
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-          </div>
-        </nav>
+        <Navbar />
 
         <div className="hero-grid">
           <div className="hero-copy">
